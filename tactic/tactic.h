@@ -51,14 +51,7 @@ public slots:
     virtual void done(const std::string & ordername,const std::string & type,const std::string & info);
     virtual void rej(const std::string & ordername,const std::string & type,const std::string & info);
     virtual void fill(const std::string & ordername,const std::string & symbol,const std::string & buysell,double price, long size);
-    virtual void pause(){_pause=true;}
-    virtual void resume(){_pause=false;}
 private:
-    bool _pause;
-    int ordersize;
-    int ordersize_1;
-    double lasttradeprice;
-    double lasttradeprice_1;
     ctp_order_manager * om;
     wtimer * timer;
 };
