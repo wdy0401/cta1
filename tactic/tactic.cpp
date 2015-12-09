@@ -18,8 +18,6 @@ void tactic::book(const CThostFtdcDepthMarketDataField *p){if(p!=nullptr){;}}
 void tactic::quote(const std::string & symbol, const std::string & ba, long level, double price, long quotesize)
 {
 //om->new_order(symbol,"SELL","OPEN",price-PRICESTEP,ORDERSZ);
-
-
 }
 
 void tactic::ack(const std::string & ordername,const std::string & type,const std::string & info)
