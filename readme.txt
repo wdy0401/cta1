@@ -19,5 +19,6 @@ new
 			lon
 			dkx
 		find trade signal
+      display signal or direct send order to exchange 
 		write ind pos signal bar to file
 		
