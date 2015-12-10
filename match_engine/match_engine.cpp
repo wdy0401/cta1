@@ -17,7 +17,7 @@ std::string match_engine::new_order(const std::string symbol,const std::string b
     order_count++;
     string ordername=symbol+"_"+buysell+"_"+openclose+"_"+wfunction::ftos(price)+"_"+wfunction::itos(size)+"_"+wfunction::ftos(order_count);
     emit send_new_order(ordername,symbol,buysell,openclose,price,size);
-    return "";
+    return ordername;
 }
 
 void match_engine::rec_quote(const std::string & symbol,const std::string & bidask,long level,double price,long size)
