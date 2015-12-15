@@ -1,11 +1,4 @@
-﻿qmessagebox 只能在主线程使用
-
--dir d:/tmp -quote_file d:/tmp/20121101_IF1211.quote -gui
-
-
-/../../build-test_simu_dlls_step-Desktop_Qt_5_3_MSVC2013_32bit-Release/    -->  /../
-
-../build-test_simu_dlls_step-Desktop_Qt_5_3_MSVC2013_32bit-Release   -->  ../blablabla 
+﻿
 
 quote queue TEST:when queue is too long drop data in queue. test this happen or not.
 
@@ -22,4 +15,23 @@ new
 		find trade signal
       display signal or direct send order to exchange 
 		write ind pos signal bar to file
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+qmessagebox 只能在主线程使用
+
+-dir d:/tmp -quote_file d:/tmp/20121101_IF1211.quote -gui
+
+
+/../../build-test_simu_dlls_step-Desktop_Qt_5_3_MSVC2013_32bit-Release/    -->  /../
+
+../build-test_simu_dlls_step-Desktop_Qt_5_3_MSVC2013_32bit-Release   -->  ../blablabla 
 		
