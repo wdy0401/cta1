@@ -20,6 +20,15 @@ new
 		
 		
 		
+rewrite datafeed maintain queue which can only be writen by another threate which is used to listen quote.
+
+	queue
+	shift when read complete
+	push when recieve new quote
+
+		
+		
+		
 		
 		
 		
