@@ -38,7 +38,7 @@ SUBDIRS += \
 	orderbook \
 	match_engine \
 	snapshot \
-        tactic
+        cta1_tactic
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/datafeed/release/ -ldatafeed
@@ -71,8 +71,8 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build-cta1-Desktop_Q
 INCLUDEPATH += $$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/snapshot/release
 DEPENDPATH += $$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/snapshot/release
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/tactic/release/ -ltactic
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/tactic/debug/ -ltactic
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/cta1_tactic/release/ -lcta1_tactic
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/cta1_tactic/debug/ -lcta1_tactic
 
-INCLUDEPATH += $$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/tactic/release
-DEPENDPATH += $$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/tactic/release
+INCLUDEPATH += $$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/cta1_tactic/release
+DEPENDPATH += $$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/cta1_tactic/release

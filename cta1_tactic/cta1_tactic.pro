@@ -1,16 +1,16 @@
 
 QT       -= gui
 
-TARGET = tactic
+TARGET = cta1_tactic
 TEMPLATE = lib
 
 DEFINES += TACTIC_LIBRARY
 
-SOURCES += tactic.cpp \
+SOURCES += cta1_tactic.cpp \
 
 
-HEADERS += tactic.h\
-                tactic_global.h \
+HEADERS += cta1_tactic.h\
+                cta1_tactic_global.h \
 
 
 unix {
