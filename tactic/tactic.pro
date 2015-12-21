@@ -6,10 +6,12 @@ TEMPLATE = lib
 
 DEFINES += TACTIC_LIBRARY
 
-SOURCES += tactic.cpp
+SOURCES += tactic.cpp \
+
 
 HEADERS += tactic.h\
-		tactic_global.h
+                tactic_global.h \
+
 
 unix {
     target.path = /usr/lib

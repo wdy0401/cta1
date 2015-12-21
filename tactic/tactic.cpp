@@ -8,6 +8,8 @@ using namespace std;
 
 void tactic::init()
 {
+    load_his_lon();
+    load_his_dkx();
 //    load_ctrs();
 //    init_ctrs();
 }
@@ -15,10 +17,6 @@ void tactic::book(const CThostFtdcDepthMarketDataField *p){if(p!=nullptr){;}}
 //{
 ////    qDebug() <<endl << "Tactic Book" << endl;
 //}
-void tactic::quote(const std::string & symbol, const std::string & ba, long level, double price, long quotesize)
-{
-//  string ordername=om->new_order(symbol,"SELL","OPEN",price-PRICESTEP,ORDERSZ);
-}
 
 void tactic::ack(const std::string & ordername,const std::string & type,const std::string & info)
 {
@@ -39,4 +37,16 @@ void tactic::fill(const std::string & ordername,const std::string & symbol,const
 {
     qDebug()<<endl<<"--->>> fill from tactic"<<endl;
     qDebug() << "ordername " << ordername.c_str() <<"\tsymbol\t"<<symbol.c_str() << "\tbuysell\t"<< buysell.c_str() <<"\tprice\t"<<price<<"\tsize\t"<<size<<endl;
+}
+
+
+void tactic::quote(const std::string & symbol, const std::string & ba, long level, double price, long quotesize)
+{
+    if(symbol != _symbol){return;}
+    update_lon(price,quotesize);
+    update_dkx(price,quotesize);
+    if(time_to_check()==true)
+    {
+        gen_order();
+    }
 }

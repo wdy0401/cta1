@@ -1,4 +1,4 @@
-﻿
+﻿新建数据结构bar来实现cta1
 
 quote queue TEST:when queue is too long drop data in queue. test this happen or not.
 

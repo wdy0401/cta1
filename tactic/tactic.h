@@ -9,7 +9,11 @@
 
 #include <QtCore/qglobal.h>
 #include<QObject>
+
+#include<queue>
 #include<string>
+
+#include "../../gpp_qt/bar/bar.h"
 #include "../parameter.h"
 #include"../../gpp_qt/wtimer/wtimer.h"
 
@@ -54,6 +58,22 @@ public slots:
 private:
     ctp_order_manager * om;
     wtimer * timer;
+
+
+    //for cta1 tactic
+public:
+    void set_symbol(const std::string & symbol){_symbol=symbol;}
+    void load_his_lon(){}
+    void load_his_dkx(){}
+    void update_lon(double a,long b){}
+    void update_dkx(double a,long b){}
+    void gen_order(){}
+private:
+    std::string _symbol;
+    bool time_to_check(){return true;}
+    std::queue<double> _lon;
+    std::queue<double> _dkx;
+    //additional queue is needed when cal lon and dkx
 };
 
 #endif // TACTIC_H
