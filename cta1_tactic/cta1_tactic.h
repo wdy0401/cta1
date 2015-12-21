@@ -20,12 +20,12 @@
 #include"../snapshot/snapshot.h"
 #include"../match_engine/match_engine.h"
 
-class TACTIC_EXPORT tactic: public QObject
+class TACTIC_EXPORT cta1_tactic: public QObject
 {
     Q_OBJECT
 public:
     void set_match_engine(match_engine * p){om=p;}
-    tactic *genp(){return new tactic;}
+    cta1_tactic *genp(){return new cta1_tactic;}
     void init();
     void send_order();
     void set_timer(wtimer * p){timer=p;}
