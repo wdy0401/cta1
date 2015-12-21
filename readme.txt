@@ -1,5 +1,11 @@
 ﻿新建数据结构bar来实现cta1
 
+lon 每日开盘读取  当日保持不变
+dkx 在收到tick时计算 
+  计算每个bar的数据
+  b 计算20个bar的数据
+  d 计算b的移动平均
+
 quote queue TEST:when queue is too long drop data in queue. test this happen or not.
 
 gen n tactic each for one contract and attach n tactic to order_manager
