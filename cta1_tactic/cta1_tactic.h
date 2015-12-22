@@ -48,9 +48,10 @@ public:
     void set_symbol(const std::string & symbol){_symbol=symbol;}
     void load_his_lon(){}
     void load_his_dkx(){}
-    void update_dkx(double a,long b){}
+    void update_dkx(double);
     void gen_order(){}
 private:
+    bool is_new_bar();
     std::string _symbol;
     bool time_to_check(){return true;}
     double  _lon;
@@ -64,11 +65,13 @@ private:
         double volume;
         double a;//(o+h+l+3*c)/6
     };
+    bar *_bar;
     struct dkx_b
     {
         std::queue<bar *> bars;
         double b;//sum(bar[n].(20-n))/210
-    } _dkx_b;
+    };
+    dkx_b *_dkx_b;
     struct dkx_d
     {
         std::queue<dkx_b *> bs;
