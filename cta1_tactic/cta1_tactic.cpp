@@ -5,10 +5,7 @@ using namespace std;
 
 void cta1_tactic::init()
 {
-    load_his_lon();
     load_his_dkx();
-//    load_ctrs();
-//    init_ctrs();
 }
 void cta1_tactic::book(const snapshot *p){if(p!=nullptr){;}}
 //{
@@ -40,7 +37,6 @@ void cta1_tactic::fill(const std::string & ordername,const std::string & symbol,
 void cta1_tactic::quote(const std::string & symbol, const std::string & ba, long level, double price, long quotesize)
 {
     if(symbol != _symbol){return;}
-    update_lon(price,quotesize);
     update_dkx(price,quotesize);
     if(time_to_check()==true)
     {

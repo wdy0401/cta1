@@ -48,14 +48,32 @@ public:
     void set_symbol(const std::string & symbol){_symbol=symbol;}
     void load_his_lon(){}
     void load_his_dkx(){}
-    void update_lon(double a,long b){}
     void update_dkx(double a,long b){}
     void gen_order(){}
 private:
     std::string _symbol;
     bool time_to_check(){return true;}
-    std::queue<double> _lon;
+    double  _lon;
     std::queue<double> _dkx;
+    struct bar
+    {
+        double open;
+        double high;
+        double low;
+        double close;
+        double volume;
+        double a;//(o+h+l+3*c)/6
+    };
+    struct dkx_b
+    {
+        std::queue<bar *> bars;
+        double b;//sum(bar[n].(20-n))/210
+    } _dkx_b;
+    struct dkx_d
+    {
+        std::queue<dkx_b *> bs;
+        double d;//sum(bar[0..19])/20
+    }_dkx_d;
     //additional queue is needed when cal lon and dkx
 };
 
