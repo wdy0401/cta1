@@ -60,11 +60,15 @@ void cta1_tactic::update_dkx(double price)
         _bar->close=price;
         _bar->a=price;
 
-        for(auto iter=_dkx_d.bs.back();;)//把所有的b都更改 然后把不需要的b移出 还要把b输出以备次日使用
-        {
-            if(iter==_dkx_d.bs.front()){break;}
-            iter--;
-        }
+        this->_dkx_b=new dkx_b;
+       _dkx_d.bs.push(_dkx_b);
+
+       for(auto iter=_dkx_d.bs.front();;iter++)//把所有的b都更改
+       {
+           iter->bars.push(_bar);
+           if(iter==_dkx_d.bs.back()){break;}
+       }
+    }
     else
     {
         if(_bar->high <price){_bar->high=price;}
@@ -72,12 +76,6 @@ void cta1_tactic::update_dkx(double price)
         _bar->close=price;
         _bar->a=(_bar->open+_bar->high+_bar->low+3*_bar->close)/6;
     }
-
-
-    this->_dkx_b=new dkx_b;
-    _dkx_d.bs.push(_dkx_b);
-
-
 }
 //struct bar
 //{
