@@ -1,5 +1,6 @@
 #include "cta1_tactic.h"
 #include<iostream>
+#include<algorithm>
 #include<QDebug>
 using namespace std;
 
@@ -7,6 +8,7 @@ void cta1_tactic::init()
 {
     load_his_dkx();
     target=0;
+    _bar_minute=15;
 }
 void cta1_tactic::book(const snapshot *p){if(p!=nullptr){;}}
 //{
@@ -38,6 +40,7 @@ void cta1_tactic::fill(const std::string & ordername,const std::string & symbol,
 void cta1_tactic::quote(const std::string & symbol, const std::string & ba, long level, double price, long quotesize)
 {
     if(symbol != _symbol){return;}
+    if(is_trading_time(_symbol)==false){return;}
     is_new_bar();
     if(_is_new_bar==true)
     {
@@ -55,18 +58,20 @@ void cta1_tactic::quote(const std::string & symbol, const std::string & ba, long
 }
 void cta1_tactic::is_new_bar()
 {
-    //static int minute=0; 问题在于now_minute如何得到
+    static int minute=0;
     //在分发quote时检查是否在交易时间 或在quote中检查时间 目前倾向于在quote中检查时间
-//    if(int(now_minute/15)==minute)
-//    {
-//        _is_new_bar=false;
-//    }
-//    else
-//    {
-//        minute=int(now_minute/15);
-//        _is_new_bar=false;
-//    }
-    _is_new_bar=true;
+    static int nt=timer->nowtic();//now time
+    nt=nt-0.000001;//第0秒的不计入新bar
+    nt=int(nt*10000)-(int(nt*100))*100;
+    if(int(nt/15)==minute)
+    {
+        _is_new_bar=false;
+    }
+    else
+    {
+        minute=int(nt/15);
+        _is_new_bar=false;
+    }
 }
 void cta1_tactic::update_dkx(double price)
 {
@@ -146,5 +151,51 @@ void cta1_tactic::set_target()
     {
         target=-1;
         //emit f(_symbol,BUY,1,price);
+    }
+}
+
+bool cta1_tactic::is_trading_time(const string & _symbol)
+{
+    string sym=_symbol;
+    transform(sym.begin(), sym.end(), sym.begin(), ::toupper);
+    int nt=timer->nowtic();//now time
+    int hour=int(nt*100)-int(nt)*100;
+    int minute=int(nt*10000)-int(nt*100)*100;
+    if(sym=="IF" ||sym=="IH" ||sym=="IC" ||sym=="TF" ||sym=="TF")
+    {
+        if(
+                 (hour==9 && minute>=15)
+            ||   (hour==10)
+            ||   (hour==11 && minute<=30)
+            ||   (hour==1)
+            ||   (hour==2)
+            ||   (hour==3 && minute<=15)
+        )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        if(
+                 (hour==9)
+            ||   (hour==10 && minute<=15)
+            ||   (hour==10 && minute>=30)
+            ||   (hour==11 && minute<=30)
+            ||   (hour==1)
+            ||   (hour==2)
+            ||   (hour==3 && minute<1)
+        )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

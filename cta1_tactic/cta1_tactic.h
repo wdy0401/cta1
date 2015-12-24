@@ -51,14 +51,18 @@ public:
     void load_his_dkx(){}
     void update_dkx(double);
     void set_target();
+    void set_bar_minute(int m){_bar_minute=m;}
 private:
     void is_new_bar();
-    bool _is_new_bar;
-    std::string _symbol;
+    bool is_trading_time(const std::string &);
     bool time_to_check(){return true;}
+
+    std::string _symbol;
+    bool _is_new_bar;
     double _lon;
     long target;
     std::queue<double> _dkx;
+    int _bar_minute;
     struct bar
     {
         double open;
@@ -88,8 +92,6 @@ private:
 
 //历史dkx的产生和load
 //当日存储dkx可以不在程序内进行 使用perl进行
-//时间格式设定
-//时间有效性检验
 
 
 //历史数据格式使用perl处理成 时间  symbol ba level price size 这种形式 接收均使用此形式 然后回测时直接读取输出便是
