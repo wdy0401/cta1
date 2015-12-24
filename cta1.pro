@@ -9,8 +9,8 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = cta1
-TEMPLATE = SUBDIRS
-#TEMPLATE = app
+#TEMPLATE = SUBDIRS
+TEMPLATE = app
 
 
 SOURCES += main.cpp\
@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     ../gpp_qt/cmd_line/cmd_line.cpp \
     ../gpp_qt/log_info/log_info.cpp \
     ../gpp_qt/log_info/logs.cpp \
-    ../gpp_qt/wfunction/qtfunction.cpp
+    ../gpp_qt/wfunction/qtfunction.cpp \
+    tactic/tactic.cpp
 
 HEADERS  += mainwindow.h \
 	order.h \
@@ -28,7 +29,8 @@ HEADERS  += mainwindow.h \
     ../gpp_qt/cmd_line/cmd_line.h \
     ../gpp_qt/log_info/log_info.h \
     ../gpp_qt/log_info/logs.h \
-    ../gpp_qt/wfunction/qtfunction.h
+    ../gpp_qt/wfunction/qtfunction.h \
+    tactic/tactic.h
 
 FORMS    += mainwindow.ui
 
@@ -38,7 +40,7 @@ SUBDIRS += \
 	orderbook \
 	match_engine \
 	snapshot \
-        cta1_tactic
+        tactic
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/datafeed/release/ -ldatafeed
@@ -71,8 +73,8 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build-cta1-Desktop_Q
 INCLUDEPATH += $$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/snapshot/release
 DEPENDPATH += $$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/snapshot/release
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/cta1_tactic/release/ -lcta1_tactic
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/cta1_tactic/debug/ -lcta1_tactic
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/tactic/release/ -ltactic
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/tactic/debug/ -ltactic
 
-INCLUDEPATH += $$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/cta1_tactic/release
-DEPENDPATH += $$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/cta1_tactic/release
+INCLUDEPATH += $$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/tactic/release
+DEPENDPATH += $$PWD/../build-cta1-Desktop_Qt_5_3_MSVC2013_32bit-Release/tactic/release

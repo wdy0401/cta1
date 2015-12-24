@@ -1,16 +1,18 @@
 
 QT       -= gui
 
-TARGET = cta1_tactic
+TARGET = tactic
 TEMPLATE = lib
 
 DEFINES += TACTIC_LIBRARY
 
-SOURCES += cta1_tactic.cpp \
+SOURCES += tactic.cpp \
+    ../../gpp_qt/wfunction/wfunction.cpp
 
 
-HEADERS += cta1_tactic.h\
-                cta1_tactic_global.h \
+HEADERS += tactic.h\
+                tactic_global.h \
+    ../../gpp_qt/wfunction/wfunction.h
 
 
 unix {

@@ -49,7 +49,8 @@ int main(int argc, char *argv[])
     fillpolicy * fp= ((fillpolicy *)(qtfunction::load_dll("fillpolicy")))->genp();
     match_engine * me= ((match_engine *)(qtfunction::load_dll("match_engine")))->genp();
     snapshot * ss= ((snapshot *)(qtfunction::load_dll("snapshot")))->genp();
-    tactic * tc= ((tactic *)(qtfunction::load_dll("tactic")))->genp();
+//    tactic * tc= ((tactic *)(qtfunction::load_dll("tactic")))->genp();
+    tactic * tc= new tactic;
 
     df->set_timer(timer);
 
@@ -63,6 +64,9 @@ int main(int argc, char *argv[])
 
     tc->set_match_engine(me);
     tc->set_timer(timer);
+    tc->set_ctr(cl->get_para("ctr"));
+    tc->set_symbol(cl->get_para("symbol"));
+    tc->set_lon(atof(cl->get_para("lon").c_str()));
 
     QObject::connect(df,&datafeed::send_quote,me,&match_engine::rec_quote);
     QObject::connect(fp,&fillpolicy::ack,tc,&tactic::ack);
@@ -89,7 +93,7 @@ int main(int argc, char *argv[])
         ls->init();
         tc->init();
 
-        df->setfile(cl->get_para("quote_file"));
+        df->set_file(cl->get_para("quote_file"));
         df->run();
 
         qDebug()<<time_counter.msecsTo(QDateTime::currentDateTime())<<"ms";
@@ -102,7 +106,7 @@ int main(int argc, char *argv[])
         ls->init();
         tc->init();
 
-        df->setfile(cl->get_para("quote_file"));
+        df->set_file(cl->get_para("quote_file"));
         df->run();
 
         qDebug()<<time_counter.msecsTo(QDateTime::currentDateTime())<<"ms";

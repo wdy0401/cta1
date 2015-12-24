@@ -1,45 +1,47 @@
-#include "cta1_tactic.h"
+#include "tactic.h"
 #include<iostream>
 #include<algorithm>
 #include<QDebug>
+#include<QFile>
+#include"../../gpp_qt/wfunction/wfunction.h"
 using namespace std;
 
-void cta1_tactic::init()
+void tactic::init()
 {
     load_his_dkx();
-    target=0;
+    _target=0;
     _bar_minute=15;
 }
-void cta1_tactic::book(const snapshot *p){if(p!=nullptr){;}}
+void tactic::book(const snapshot *p){if(p!=nullptr){;}}
 //{
 ////    qDebug() <<endl << "Tactic Book" << endl;
 //}
 
-void cta1_tactic::ack(const std::string & ordername,const std::string & type,const std::string & info)
+void tactic::ack(const std::string & ordername,const std::string & type,const std::string & info)
 {
     qDebug()<<endl<<"--->>> ack from tactic"<<endl;
     qDebug() << "ordername " << ordername.c_str() <<"\ttype\t"<<type.c_str()<<"\tinfo\t"<<info.c_str()<<endl;
 }
-void cta1_tactic::done(const std::string & ordername,const std::string & type,const std::string & info)
+void tactic::done(const std::string & ordername,const std::string & type,const std::string & info)
 {
     qDebug()<<endl<<"--->>> done from tactic"<<endl;
     qDebug() << "ordername " << ordername.c_str() <<"\ttype\t"<<type.c_str()<<"\tinfo\t"<<info.c_str()<<endl;
 }
-void cta1_tactic::rej(const std::string & ordername,const std::string & type,const std::string & info)
+void tactic::rej(const std::string & ordername,const std::string & type,const std::string & info)
 {
     qDebug()<<endl<<"--->>> rej from tactic"<<endl;
     qDebug() << "ordername " << ordername.c_str() <<"\ttype\t"<<type.c_str()<<"\tinfo\t"<<info.c_str()<<endl;
 }
-void cta1_tactic::fill(const std::string & ordername,const std::string & symbol,const std::string & buysell,double price, long size)
+void tactic::fill(const std::string & ordername,const std::string & ctr,const std::string & buysell,double price, long size)
 {
     qDebug()<<endl<<"--->>> fill from tactic"<<endl;
-    qDebug() << "ordername " << ordername.c_str() <<"\tsymbol\t"<<symbol.c_str() << "\tbuysell\t"<< buysell.c_str() <<"\tprice\t"<<price<<"\tsize\t"<<size<<endl;
+    qDebug() << "ordername " << ordername.c_str() <<"\tctr\t"<<ctr.c_str() << "\tbuysell\t"<< buysell.c_str() <<"\tprice\t"<<price<<"\tsize\t"<<size<<endl;
 }
 
 
-void cta1_tactic::quote(const std::string & symbol, const std::string & ba, long level, double price, long quotesize)
+void tactic::quote(const std::string & ctr, const std::string & ba, long level, double price, long quotesize)
 {
-    if(symbol != _symbol){return;}
+    if(ctr != _ctr){return;}
     if(is_trading_time(_symbol)==false){return;}
     is_new_bar();
     if(_is_new_bar==true)
@@ -50,13 +52,13 @@ void cta1_tactic::quote(const std::string & symbol, const std::string & ba, long
     {
 
     }
-    if(target!=0)
+    if(_target!=0)
     {
-        emit show_target(target);
+        emit show_target(_target);
     }
     update_dkx(price);
 }
-void cta1_tactic::is_new_bar()
+void tactic::is_new_bar()
 {
     static int minute=0;
     //在分发quote时检查是否在交易时间 或在quote中检查时间 目前倾向于在quote中检查时间
@@ -73,7 +75,7 @@ void cta1_tactic::is_new_bar()
         _is_new_bar=false;
     }
 }
-void cta1_tactic::update_dkx(double price)
+void tactic::update_dkx(double price)
 {
     if(_is_new_bar==true)
     {
@@ -110,7 +112,7 @@ void cta1_tactic::update_dkx(double price)
         _bar->a=(_bar->open+_bar->high+_bar->low+3*_bar->close)/6;
     }
 }
-void cta1_tactic::set_target()
+void tactic::set_target()
 {
     if(int(_dkx_d.bs.size())<=20)
     {
@@ -145,16 +147,16 @@ void cta1_tactic::set_target()
     }
     if(_dkx_d.bs.front()->b > sum/20 && this->_lon > 0)
     {
-        target=1;
+        _target=1;
     }
     if(_dkx_d.bs.front()->b < sum/20 && this->_lon < 0)
     {
-        target=-1;
-        //emit f(_symbol,BUY,1,price);
+        _target=-1;
+        //emit f(_ctr,BUY,1,price);
     }
 }
 
-bool cta1_tactic::is_trading_time(const string & _symbol)
+bool tactic::is_trading_time(const string & _symbol)
 {
     string sym=_symbol;
     transform(sym.begin(), sym.end(), sym.begin(), ::toupper);
@@ -198,4 +200,41 @@ bool cta1_tactic::is_trading_time(const string & _symbol)
             return false;
         }
     }
+}
+void tactic::load_his_dkx()
+{
+    QFile file(QString::fromStdString("c:/dkx/"+_symbol+".txt"));
+
+   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+   {
+       return;
+   }
+   while (!file.atEnd()) {
+       QByteArray line = file.readLine();
+       string tmpstring=line.data();
+       if(tmpstring!="")
+       {
+           list<string> lists=wfunction::splitstring(tmpstring);
+           list<string>::iterator iter=lists.begin();
+
+           double	nowtime=atof(iter->c_str());
+           timer->settic(nowtime);
+           string	ctr=(++iter)->c_str();
+           string	bidask=(++iter)->c_str();
+           long     level=atol((++iter)->c_str());
+           double	price=atof((++iter)->c_str());
+           long     size=atol((++iter)->c_str());
+           if(bidask=="OPEN")
+           {
+               _is_new_bar=true;
+           }
+           else
+           {
+               _is_new_bar=false;
+           }
+           update_dkx(price);
+       }
+   }
+    timer->settic(0);
+    _is_new_bar=false;
 }
