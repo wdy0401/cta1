@@ -31,6 +31,7 @@ public:
     void set_timer(wtimer * p){timer=p;}
 signals:
     void tactic_info(const std::string & info);
+    void show_target(long);
 public slots:
     virtual void book(const snapshot *p);
     virtual void quote(const std::string & symbol, const std::string & ba, long level, double price, long quotesize);
@@ -49,12 +50,14 @@ public:
     void load_his_lon(){}
     void load_his_dkx(){}
     void update_dkx(double);
-    void gen_order(){}
+    void set_target();
 private:
-    bool is_new_bar();
+    void is_new_bar();
+    bool _is_new_bar;
     std::string _symbol;
     bool time_to_check(){return true;}
-    double  _lon;
+    double _lon;
+    long target;
     std::queue<double> _dkx;
     struct bar
     {
@@ -81,3 +84,12 @@ private:
 };
 
 #endif // TACTIC_H
+
+
+//历史dkx的产生和load
+//当日存储dkx可以不在程序内进行 使用perl进行
+//时间格式设定
+//时间有效性检验
+
+
+//历史数据格式使用perl处理成 时间  symbol ba level price size 这种形式 接收均使用此形式 然后回测时直接读取输出便是
