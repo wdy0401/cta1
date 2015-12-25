@@ -21,7 +21,7 @@ public:
     void set_match_engine(match_engine * p){om=p;}
     tactic *genp(){return new tactic;}
     void init();
-    void send_order();
+    void send_order(){;}
     void set_timer(wtimer * p){timer=p;}
 signals:
     void tactic_info(const std::string & info);
